@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.oylong.myfund.window.FundWindow">
+  <grid id="27dc6" binding="content" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="519" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="61927" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="5b8dd" class="javax.swing.JButton" binding="btnUpdate">
+            <constraints/>
+            <properties>
+              <text value="手动更新"/>
+            </properties>
+          </component>
+          <component id="dbf00" class="javax.swing.JButton" binding="btnAdd">
+            <constraints/>
+            <properties>
+              <text value="修改基金"/>
+            </properties>
+          </component>
+          <component id="d8000" class="javax.swing.JButton" binding="btnEditCount">
+            <constraints/>
+            <properties>
+              <text value="修改份额"/>
+            </properties>
+          </component>
+          <component id="30551" class="javax.swing.JButton" binding="selectedCancle">
+            <constraints/>
+            <properties>
+              <text value="取消选中"/>
+            </properties>
+          </component>
+          <component id="69fc1" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <enabled value="false"/>
+              <text value="预计今日收益:"/>
+            </properties>
+          </component>
+          <component id="519bd" class="javax.swing.JLabel" binding="label_money">
+            <constraints/>
+            <properties>
+              <text value="0"/>
+            </properties>
+          </component>
+          <component id="7e827" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <enabled value="false"/>
+              <text value="元"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <scrollpane id="325e">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="dd36a" class="javax.swing.JTable" binding="fundTable">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
+    </children>
+  </grid>
+</form>

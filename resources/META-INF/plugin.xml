@@ -1,0 +1,36 @@
+<idea-plugin>
+  <id>com.oylong.myfund.id</id>
+  <name>My Fund Plugin</name>
+  <version>1.1</version>
+  <vendor email="ouyanglong721@gmail.com" url="http://www.oylong.com">OyLong's Blog</vendor>
+
+  <description><![CDATA[
+      这一个自用的基金摸鱼插件...................................................
+    <em>MyFund</em>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      第二版,ui界面部分修改</br>
+      <em>对ui界面做了部分更改.......................</em>
+    ]]>
+  </change-notes>
+
+  <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="173.0"/>
+
+  <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+
+    <toolWindow id="MyFund" factoryClass="com.oylong.myfund.window.FundWindowFactory" anchor="bottom"/>
+
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+</idea-plugin>
