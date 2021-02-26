@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.oylong.myfund.id</id>
   <name>My Fund Plugin</name>
-  <version>1.1</version>
+  <version>1.2</version>
   <vendor email="ouyanglong721@gmail.com" url="http://www.oylong.com">OyLong's Blog</vendor>
 
   <description><![CDATA[
@@ -10,17 +10,22 @@
     ]]></description>
 
   <change-notes><![CDATA[
-    1.0 第一个可用版本发布
-    最初版本,最初可用版本发布</br>
-    <em>第一个可用版本</em>
+    <h4>1.0 第一个可用版本发布</h4>
+    <ul>
+      <li>最初版本,最初可用版本发布</li>
+    </ul>
 
-    1.1 完善了ui,把ui界面固定了,自适应列宽
-    第二版,ui界面部分修改</br>
-    <em>对ui界面做了部分更改.......................</em>
+    <h4>1.1 完善了ui,把ui界面固定了,自适应列宽</h4>
+    <ul>
+      <li>第二版,ui界面部分修改</li>
+    </ul>
 
-    1.2 对表格自适应做了部分更改,添加了错误的基金代码的提示
-      第三版,主要是添加了错误的基金代码的提示,增加了部分逻辑判断</br>
-      <em>................</em>
+    <h4>1.2 对表格自适应做了部分更改,添加了错误的基金代码的提示</h4>
+    <ul>
+      <li>添加了错误的基金代码的提示</li>
+      <li>对表格自适应做了部分更改</li>
+      <li>对接口的请求增加了限制时间</li>
+    </ul>
     ]]>
   </change-notes>
 
