@@ -18,7 +18,7 @@ public class FundDataConvert {
         String today = simpleDateFormat.format(new Date());
         String jzDate = simpleDateFormat.format(fundData.getJzrq());
 
-        String gzDate = today.equals(jzDate)?"":"("+jzDate+")";
+        String gzDate = today.equals(jzDate)?"":"["+jzDate+"]";
 
         double money = fundData.getDwjz()*DataCenter.getFundCount(fundData.getFundcode());
 
@@ -33,11 +33,11 @@ public class FundDataConvert {
         return new String[] {
                 fundData.getFundcode(),
                 fundData.getName(),
-                fundData.getGszzl()+"%",
+                fundData.getGszzl()!=0?fundData.getGszzl()+"%":"0",
                 new SimpleDateFormat("HH:mm").format(fundData.getGztime()),
-                fundData.getDwjz() + gzDate,
+                String.format("%.4f", fundData.getDwjz()) + gzDate,
                 String.valueOf(DataCenter.getFundCount(fundData.getFundcode())),
-                sign+String.format("%.3f", money)
+                money!=0?sign+String.format("%.3f", money):"0"
         };
     }
 }

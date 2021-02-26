@@ -3,10 +3,8 @@ package com.oylong.myfund.window;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-import com.intellij.notification.NotificationDisplayType;
-import com.intellij.notification.NotificationGroup;
+import com.intellij.notification.*;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBColor;
@@ -38,6 +36,7 @@ public class FundWindow {
     private JButton btnEditCount;
     private JButton selectedCancle;
     private JButton btnUpdate;
+    private JPanel btn_content;
 
     private Thread thread;
 
@@ -47,18 +46,30 @@ public class FundWindow {
 
     private void init() {
 
-        fundTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-//        fundTable.setPreferredSize(new Dimension(1000, 300));
+        btn_content.setLayout(new FlowLayout(FlowLayout.LEFT,10,5));
 
         initTable();
 
         updateTable();
 
+
+
         startSchedule();
     }
 
     private void initTable() {
+
+        fundTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
         fundTable.setEnabled(true);
+
+        DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+
+        tcr.setHorizontalAlignment(SwingConstants.CENTER);
+
+        fundTable.setDefaultRenderer(Object.class, tcr);
+
+        fundTable.setShowGrid(false);
 
         String fundIds = DataCenter.getFundIds();
         if (fundIds == null || fundIds.split(",").length == 0) {
@@ -67,7 +78,7 @@ public class FundWindow {
     }
 
     private void updateColors() {
-        fundTable.getColumn("估算涨跌幅").setCellRenderer(new DefaultTableCellRenderer() {
+        fundTable.getColumnModel().getColumn(2).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 double temp = 0.0;
@@ -77,19 +88,19 @@ public class FundWindow {
                 } catch (Exception e) {
 
                 }
-                Color orgin = getForeground();
                 if (temp > 0) {
                     setForeground(new JBColor(0XFF4040, 0XFF4040));
                 } else if (temp < 0) {
                     setForeground(new JBColor(0X90EE90, 0X90EE90));
-                } else if (temp == 0) {
-                    setForeground(orgin);
+                } else {
+                    setForeground(Color.LIGHT_GRAY);
                 }
+                setHorizontalAlignment(SwingConstants.CENTER);
                 return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             }
         });
 
-        fundTable.getColumn("预计盈亏").setCellRenderer(new DefaultTableCellRenderer() {
+        fundTable.getColumnModel().getColumn(6).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 double temp = 0.0;
@@ -99,14 +110,14 @@ public class FundWindow {
                 } catch (Exception e) {
 
                 }
-                Color orgin = getForeground();
                 if (temp > 0) {
                     setForeground(new JBColor(0XFF4040, 0XFF4040));
                 } else if (temp < 0) {
                     setForeground(new JBColor(0X90EE90, 0X90EE90));
-                } else if (temp == 0) {
-                    setForeground(orgin);
+                } else{
+                    setForeground(Color.LIGHT_GRAY);
                 }
+                setHorizontalAlignment(SwingConstants.CENTER);
                 return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             }
         });
@@ -122,7 +133,8 @@ public class FundWindow {
         DataCenter.ALL_MONEY = 0;
         for (int i = 0; i < ids.length; i++) {
             String id = ids[i];
-            HttpResponse response = HttpUtil.createGet(DataCenter.FUND_URL + id + ".js").execute();
+            String url = DataCenter.FUND_URL + id + ".js?rt="+System.currentTimeMillis();
+            HttpResponse response = HttpUtil.createGet(url).timeout(2000).execute();
             if (response.getStatus() == 200) {
                 String body = response.body();
                 if (body.length() < 10) {
@@ -132,14 +144,27 @@ public class FundWindow {
                 try {
                     fundData = JSONUtil.toBean(body.substring(8, body.length() - 2), FundData.class);
                 } catch (Exception e) {
-                    new NotificationGroup("解析异常", NotificationDisplayType.NONE, true).createNotification("基金"+id+"解析异常", MessageType.INFO).notify();
+                    NotificationGroup notificationGroup = new NotificationGroup("MyFund", NotificationDisplayType.BALLOON, true);
+                    Notification notification = notificationGroup.createNotification("基金代码"+id+"信息获取失败,请检查", NotificationType.ERROR);
+                    Notifications.Bus.notify(notification);
+                    continue;
                 }
                 DataCenter.FUND_DATA_MAP.put(fundData.getFundcode(), fundData);
-                newData[i] = FundDataConvert.toTableData(fundData);
+                String[] strings = FundDataConvert.toTableData(fundData);
+                if(strings != null) {
+                    newData[i] = strings;
+                }
+            } else {
+                NotificationGroup notificationGroup = new NotificationGroup("MyFund", NotificationDisplayType.BALLOON, true);
+                Notification notification = notificationGroup.createNotification("基金代码"+id+"信息获取失败,请检查", NotificationType.ERROR);
+                Notifications.Bus.notify(notification);
             }
         }
+
+
         String sign = DataCenter.ALL_MONEY>0?"+":"";
-        label_money.setText(sign+String.format("%.3f", DataCenter.ALL_MONEY));
+            String lableValue = DataCenter.ALL_MONEY!=0?sign+String.format("%.3f", DataCenter.ALL_MONEY):"0";
+            label_money.setText(lableValue);
         if(DataCenter.ALL_MONEY > 0) {
             label_money.setForeground(new JBColor(0XFF4040, 0XFF4040));
         } else if(DataCenter.ALL_MONEY < 0) {
@@ -163,6 +188,9 @@ public class FundWindow {
 
     private void updateTable() {
         String[][] newData = getNewData();
+        if(newData == null) {
+            return;
+        }
         DefaultTableModel model = new DefaultTableModel(newData, DataCenter.HEADERS){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -173,9 +201,10 @@ public class FundWindow {
         recordSelectedColumn();
         fundTable.setModel(model);
         recoverSelectedColumn();
-        updateColors();
-        TableUtilities.fixTableColumnWidth(fundTable);
 
+        updateColors();
+
+        TableUtilities.FitTableColumns(fundTable);
     }
 
     private void startSchedule() {
@@ -195,7 +224,13 @@ public class FundWindow {
 
         thread = new Thread(() -> {
             while (thread!=null && thread.hashCode() == Thread.currentThread().hashCode() && !thread.isInterrupted()) {
-                updateTable();
+                try {
+                    updateTable();
+                } catch (Exception e) {
+                    NotificationGroup notificationGroup = new NotificationGroup("MyFund", NotificationDisplayType.BALLOON, true);
+                    Notification notification = notificationGroup.createNotification("基金更新时遇到未知错误:"+e.getLocalizedMessage(), NotificationType.ERROR);
+                    Notifications.Bus.notify(notification);
+                }
                 try {
                     Thread.sleep(60*1000);
                 } catch (InterruptedException e) {
@@ -224,6 +259,7 @@ public class FundWindow {
                 String oldString = DataCenter.getFundIds();
 
                 DataCenter.setFundIds(newString);
+
 
                 if(StringUtils.isEmpty(newString)) {
                     newString = "";
@@ -271,11 +307,12 @@ public class FundWindow {
                 }
 
                 String inputString = inputDialog.getInputString();
-                if (inputString != null) {
+                if (!StringUtils.isEmpty(inputString)) {
                     DataCenter.setFundCount((String) fundTable.getValueAt(selectedRow, 0), Double.parseDouble(inputString));
-                    updateTable();
+                } else {
+                    DataCenter.setFundCount((String) fundTable.getValueAt(selectedRow, 0), 0);
                 }
-
+                updateTable();
             }
         });
         selectedCancle.addActionListener(new ActionListener() {
