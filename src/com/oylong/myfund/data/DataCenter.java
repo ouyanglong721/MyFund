@@ -1,6 +1,7 @@
 package com.oylong.myfund.data;
 
 import com.intellij.ide.util.PropertiesComponent;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 
@@ -15,10 +16,13 @@ public class DataCenter {
 
     public static final String MY_FUND_IDS = "MY_FUND_IDS";
     public static final String MY_FUND_COUNT_KEY = "MY_FUND_COUNT_";
+    public static final String MY_FUND_CBX_STATUS = "MY_FUND_CBX_STATUS";
 
     public static final String FUND_URL = "http://fundgz.1234567.com.cn/js/";
 
     public static double ALL_MONEY = 0;
+
+    public static volatile boolean CBX_STATUS = false;
 
     public static final HashMap<String, FundData> FUND_DATA_MAP = new HashMap<>();
 
@@ -29,6 +33,21 @@ public class DataCenter {
     public static String getFundIds() {
         return PropertiesComponent.getInstance().getValue(MY_FUND_IDS);
     }
+
+    public static void setCbxStatus(boolean b) {
+        CBX_STATUS = b;
+        PropertiesComponent.getInstance().setValue(MY_FUND_CBX_STATUS, b);
+    }
+
+    public static boolean getCbxStatus() {
+        String value = PropertiesComponent.getInstance().getValue(MY_FUND_CBX_STATUS);
+        if(StringUtils.isEmpty(value)) {
+            return false;
+        }
+        return Boolean.parseBoolean(value);
+    }
+
+
 
     public static void removeFundCount(String id) {
         PropertiesComponent.getInstance().setValue(MY_FUND_COUNT_KEY+id, null);

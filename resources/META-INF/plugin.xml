@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.oylong.myfund.id</id>
   <name>My Fund Plugin</name>
-  <version>1.2</version>
+  <version>1.3</version>
   <vendor email="ouyanglong721@gmail.com" url="http://www.oylong.com">OyLong's Blog</vendor>
 
   <description><![CDATA[
@@ -25,6 +25,12 @@
       <li>添加了错误的基金代码的提示</li>
       <li>对表格自适应做了部分更改</li>
       <li>对接口的请求增加了限制时间</li>
+    </ul>
+
+    <h4>1.3 修改更新频率,周末收益计算选择</h4>
+    <ul>
+      <li>修改基金接口请求更新频率为30秒</li>
+      <li>添加了单选框,用于选中是否计算周末收益</li>
     </ul>
     ]]>
   </change-notes>

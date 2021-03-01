@@ -3,6 +3,7 @@ package com.oylong.myfund.data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -26,6 +27,17 @@ public class FundDataConvert {
         if(!StringUtils.isEmpty(gzDate)) {
             money = money*fundData.getGszzl()/100.0;
         }
+
+        /*
+          是否是周末
+         */
+        Calendar calendar=Calendar.getInstance();
+        boolean isWeekend = (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) ||
+                (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);
+        if(!DataCenter.getCbxStatus() && isWeekend) {
+            money = 0;
+        }
+
         DataCenter.ALL_MONEY+=money;
 
         String sign =money>0?"+":"";

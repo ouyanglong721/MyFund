@@ -15,6 +15,8 @@ import com.oylong.myfund.util.TableUtilities;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -37,10 +39,10 @@ public class FundWindow {
     private JButton selectedCancle;
     private JButton btnUpdate;
     private JPanel btn_content;
+    private JCheckBox cbx_week;
 
     private Thread thread;
 
-    private int[] sizes = new int[]{0,0,0,0,0,0,0};
 
     int selectedRow = -1;
 
@@ -48,11 +50,11 @@ public class FundWindow {
 
         btn_content.setLayout(new FlowLayout(FlowLayout.LEFT,10,5));
 
+        cbx_week.setSelected(DataCenter.getCbxStatus());
+
         initTable();
 
         updateTable();
-
-
 
         startSchedule();
     }
@@ -232,7 +234,7 @@ public class FundWindow {
                     Notifications.Bus.notify(notification);
                 }
                 try {
-                    Thread.sleep(60*1000);
+                    Thread.sleep(30*1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -324,6 +326,15 @@ public class FundWindow {
         btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                updateTable();
+            }
+        });
+
+
+        cbx_week.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                DataCenter.setCbxStatus(cbx_week.isSelected());
                 updateTable();
             }
         });
