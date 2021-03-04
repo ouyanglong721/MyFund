@@ -41,25 +41,24 @@ public class DataCenter {
 
     public static boolean getCbxStatus() {
         String value = PropertiesComponent.getInstance().getValue(MY_FUND_CBX_STATUS);
-        if(StringUtils.isEmpty(value)) {
+        if (StringUtils.isEmpty(value)) {
             return false;
         }
         return Boolean.parseBoolean(value);
     }
 
 
-
     public static void removeFundCount(String id) {
-        PropertiesComponent.getInstance().setValue(MY_FUND_COUNT_KEY+id, null);
+        PropertiesComponent.getInstance().setValue(MY_FUND_COUNT_KEY + id, null);
     }
 
     public static void setFundCount(String id, double count) {
-        PropertiesComponent.getInstance().setValue(MY_FUND_COUNT_KEY+id, String.valueOf(count));
+        PropertiesComponent.getInstance().setValue(MY_FUND_COUNT_KEY + id, String.valueOf(count));
     }
 
     public static double getFundCount(String id) {
-        if(PropertiesComponent.getInstance().getValue(MY_FUND_COUNT_KEY+id) != null) {
-            return Double.parseDouble(PropertiesComponent.getInstance().getValue(MY_FUND_COUNT_KEY+id));
+        if (PropertiesComponent.getInstance().getValue(MY_FUND_COUNT_KEY + id) != null) {
+            return Double.parseDouble(PropertiesComponent.getInstance().getValue(MY_FUND_COUNT_KEY + id));
         }
         return 0;
     }
