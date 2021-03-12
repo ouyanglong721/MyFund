@@ -162,6 +162,13 @@ public class FundWindow {
             }
         }
 
+       synchronized (this) {
+           DataCenter.ALL_MONEY = 0;
+           for (int i = 0; i < ids.length; i++) {
+               String id = ids[i];
+               DataCenter.ALL_MONEY += DataCenter.getFundMoney(id);
+           }
+       }
 
         String sign = DataCenter.ALL_MONEY > 0 ? "+" : "";
         String labelValue = DataCenter.ALL_MONEY != 0 ? sign + String.format("%.3f", DataCenter.ALL_MONEY) : "0";
@@ -283,8 +290,9 @@ public class FundWindow {
                 oldSet.removeAll(newSet);
 
                 for (String s : oldSet) {
-                    DataCenter.FUND_DATA_MAP.remove("s");
+                    DataCenter.FUND_DATA_MAP.remove(s);
                     DataCenter.removeFundCount(s);
+                    DataCenter.FUND_MONEY_MAP.remove(s);
                 }
                 updateTable();
             }

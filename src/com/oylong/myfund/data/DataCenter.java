@@ -4,6 +4,7 @@ import com.intellij.ide.util.PropertiesComponent;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 数据中心
@@ -25,6 +26,8 @@ public class DataCenter {
     public static volatile boolean CBX_STATUS = false;
 
     public static final HashMap<String, FundData> FUND_DATA_MAP = new HashMap<>();
+
+    public static final ConcurrentHashMap<String, Double> FUND_MONEY_MAP = new ConcurrentHashMap<>();
 
     public static void setFundIds(String ids) {
         PropertiesComponent.getInstance().setValue(MY_FUND_IDS, ids);
@@ -61,5 +64,17 @@ public class DataCenter {
             return Double.parseDouble(PropertiesComponent.getInstance().getValue(MY_FUND_COUNT_KEY + id));
         }
         return 0;
+    }
+
+    public static void saveMoney(String id, double money) {
+        FUND_MONEY_MAP.put(id, money);
+    }
+
+    public static Double getFundMoney(String id) {
+        Double money = FUND_MONEY_MAP.get(id);
+        if(money == null) {
+            return 0.0;
+        }
+        return money;
     }
 }

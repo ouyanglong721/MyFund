@@ -23,11 +23,11 @@ public class FundDataConvert {
 
         double money = fundData.getDwjz()*DataCenter.getFundCount(fundData.getFundcode());
 
-
         if(!StringUtils.isEmpty(gzDate)) {
             money = money*fundData.getGszzl()/100.0;
         }
 
+        DataCenter.saveMoney(fundData.getFundcode(), money);
         /*
           是否是周末
          */
@@ -37,8 +37,6 @@ public class FundDataConvert {
         if(!DataCenter.getCbxStatus() && isWeekend) {
             money = 0;
         }
-
-        DataCenter.ALL_MONEY+=money;
 
         String sign =money>0?"+":"";
 
