@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.oylong.myfund.id</id>
   <name>My Fund Plugin</name>
-  <version>1.3.2</version>
+  <version>1.3.3</version>
   <vendor email="ouyanglong721@gmail.com" url="http://www.oylong.com">OyLong's Blog</vendor>
 
   <description><![CDATA[
@@ -10,6 +10,11 @@
     ]]></description>
 
   <change-notes><![CDATA[
+  <h4>1.3.3 修复周末盈亏显示bug</h4>
+    <ul>
+      <li>修复周末盈亏显示bug</li>
+    </ul>
+
   <h4>1.3.2 继续修复了盈亏计算bug</h4>
     <ul>
       <li>继续修复了盈亏计算bug,添加了同步代码块</li>
