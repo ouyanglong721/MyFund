@@ -41,7 +41,6 @@ public class FundWindow {
     private JPanel btn_content;
     private JCheckBox cbx_week;
 
-    private Thread thread;
 
 
     int selectedRow = -1;
@@ -56,7 +55,7 @@ public class FundWindow {
 
         updateTable();
 
-        startSchedule();
+        DataCenter.THREAD_POOL_EXECUTOR.execute(this::startSchedule);
     }
 
     private void initTable() {
@@ -152,9 +151,7 @@ public class FundWindow {
                 }
                 DataCenter.FUND_DATA_MAP.put(fundData.getFundcode(), fundData);
                 String[] strings = FundDataConvert.toTableData(fundData);
-                if (strings != null) {
-                    newData[i] = strings;
-                }
+                newData[i] = strings;
             } else {
                 NotificationGroup notificationGroup = new NotificationGroup("MyFund", NotificationDisplayType.BALLOON, true);
                 Notification notification = notificationGroup.createNotification("基金代码" + id + "信息获取失败,请检查", NotificationType.ERROR);
@@ -217,26 +214,12 @@ public class FundWindow {
     }
 
     private void startSchedule() {
-//        CronUtil.schedule("0 */1 * * * ?", new Task() {
-//            @Override
-//            public void execute() {
-//                updateTable();
-//            }
-//        });
-//        CronUtil.setMatchSecond(true);
-//        CronUtil.start();
-
-        if (thread != null) {
-            thread.interrupt();
-            thread.stop();
-        }
-
-        thread = new Thread(() -> {
-            while (thread != null && thread.hashCode() == Thread.currentThread().hashCode() && !thread.isInterrupted()) {
+        DataCenter.THREAD_POOL_EXECUTOR.execute(()->{
+            while (true) {
                 try {
                     updateTable();
                 } catch (Exception e) {
-                    NotificationGroup notificationGroup = new NotificationGroup("MyFund", NotificationDisplayType.BALLOON, true);
+                    NotificationGroup notificationGroup = new NotificationGroup("MyFund", NotificationDisplayType.NONE, true);
                     Notification notification = notificationGroup.createNotification("基金更新时遇到未知错误:" + e.getLocalizedMessage(), NotificationType.ERROR);
                     Notifications.Bus.notify(notification);
                 }
@@ -247,8 +230,6 @@ public class FundWindow {
                 }
             }
         });
-
-        thread.start();
     }
 
 

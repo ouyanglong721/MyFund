@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.oylong.myfund.id</id>
   <name>My Fund Plugin</name>
-  <version>1.3.3</version>
+  <version>1.4</version>
   <vendor email="ouyanglong721@gmail.com" url="http://www.oylong.com">OyLong's Blog</vendor>
 
   <description><![CDATA[
@@ -10,6 +10,14 @@
     ]]></description>
 
   <change-notes><![CDATA[
+    <h4>1.4 使用单独线程更新数据</h4>
+    <ul>
+      <li>使用新的线程去更新数据，避免界面的卡顿</li>
+    </ul>
+    <ul>
+      <li>取消弹出气泡提醒</li>
+    </ul>
+
   <h4>1.3.3 修复周末盈亏显示bug</h4>
     <ul>
       <li>修复周末盈亏显示bug</li>

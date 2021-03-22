@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 数据中心
@@ -25,9 +27,15 @@ public class DataCenter {
 
     public static volatile boolean CBX_STATUS = false;
 
+    public static final ExecutorService THREAD_POOL_EXECUTOR;
+
     public static final HashMap<String, FundData> FUND_DATA_MAP = new HashMap<>();
 
     public static final ConcurrentHashMap<String, Double> FUND_MONEY_MAP = new ConcurrentHashMap<>();
+
+    static {
+        THREAD_POOL_EXECUTOR = Executors.newFixedThreadPool(2);
+    }
 
     public static void setFundIds(String ids) {
         PropertiesComponent.getInstance().setValue(MY_FUND_IDS, ids);
