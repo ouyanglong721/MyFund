@@ -4,9 +4,7 @@ import com.intellij.ide.util.PropertiesComponent;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * 数据中心
@@ -27,14 +25,14 @@ public class DataCenter {
 
     public static volatile boolean CBX_STATUS = false;
 
-    public static final ExecutorService THREAD_POOL_EXECUTOR;
+    public static final ExecutorService UPDATE_THREAD_POOL_EXECUTOR;
 
     public static final HashMap<String, FundData> FUND_DATA_MAP = new HashMap<>();
 
     public static final ConcurrentHashMap<String, Double> FUND_MONEY_MAP = new ConcurrentHashMap<>();
 
     static {
-        THREAD_POOL_EXECUTOR = Executors.newFixedThreadPool(2);
+        UPDATE_THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(2, 4, 0L, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2), r -> new Thread(r, "update thread-" + r.hashCode()), new ThreadPoolExecutor.DiscardOldestPolicy());
     }
 
     public static void setFundIds(String ids) {

@@ -42,7 +42,6 @@ public class FundWindow {
     private JCheckBox cbx_week;
 
 
-
     int selectedRow = -1;
 
     private void init() {
@@ -53,9 +52,9 @@ public class FundWindow {
 
         initTable();
 
-        updateTable();
+        DataCenter.UPDATE_THREAD_POOL_EXECUTOR.execute(this::updateTable);
 
-        DataCenter.THREAD_POOL_EXECUTOR.execute(this::startSchedule);
+        DataCenter.UPDATE_THREAD_POOL_EXECUTOR.execute(this::startSchedule);
     }
 
     private void initTable() {
@@ -159,13 +158,13 @@ public class FundWindow {
             }
         }
 
-       synchronized (this) {
-           DataCenter.ALL_MONEY = 0;
-           for (int i = 0; i < ids.length; i++) {
-               String id = ids[i];
-               DataCenter.ALL_MONEY += DataCenter.getFundMoney(id);
-           }
-       }
+        synchronized (this) {
+            DataCenter.ALL_MONEY = 0;
+            for (int i = 0; i < ids.length; i++) {
+                String id = ids[i];
+                DataCenter.ALL_MONEY += DataCenter.getFundMoney(id);
+            }
+        }
 
         String sign = DataCenter.ALL_MONEY > 0 ? "+" : "";
         String labelValue = DataCenter.ALL_MONEY != 0 ? sign + String.format("%.3f", DataCenter.ALL_MONEY) : "0";
@@ -191,12 +190,22 @@ public class FundWindow {
         fundTable.setRowSelectionInterval(selectedRow, selectedRow);
     }
 
-    private void updateTable() {
+    private boolean updateTable() {
         DataCenter.ALL_MONEY = 0;
-        String[][] newData = getNewData();
-        if (newData == null) {
-            return;
+        String[][] newData = null;
+        try {
+            newData = getNewData();
+        } catch (Exception e) {
+            NotificationGroup notificationGroup = new NotificationGroup("MyFund", NotificationDisplayType.NONE, true);
+            Notification notification = notificationGroup.createNotification("基金更新时遇到未知错误:" + e.getLocalizedMessage(), NotificationType.ERROR);
+            Notifications.Bus.notify(notification);
+            return false;
         }
+
+        if (newData == null) {
+            return false;
+        }
+
         DefaultTableModel model = new DefaultTableModel(newData, DataCenter.HEADERS) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -211,18 +220,14 @@ public class FundWindow {
         updateColors();
 
         TableUtilities.FitTableColumns(fundTable);
+        return true;
     }
 
     private void startSchedule() {
-        DataCenter.THREAD_POOL_EXECUTOR.execute(()->{
-            while (true) {
-                try {
-                    updateTable();
-                } catch (Exception e) {
-                    NotificationGroup notificationGroup = new NotificationGroup("MyFund", NotificationDisplayType.NONE, true);
-                    Notification notification = notificationGroup.createNotification("基金更新时遇到未知错误:" + e.getLocalizedMessage(), NotificationType.ERROR);
-                    Notifications.Bus.notify(notification);
-                }
+        DataCenter.UPDATE_THREAD_POOL_EXECUTOR.execute(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                updateTable();
+
                 try {
                     Thread.sleep(30 * 1000);
                 } catch (InterruptedException e) {
@@ -257,7 +262,7 @@ public class FundWindow {
                 String[] newIds = newString.split(",");
 
                 if (StringUtils.isEmpty(oldString)) {
-                    updateTable();
+                    DataCenter.UPDATE_THREAD_POOL_EXECUTOR.execute(() -> updateTable());
                     return;
                 }
 
@@ -275,7 +280,7 @@ public class FundWindow {
                     DataCenter.removeFundCount(s);
                     DataCenter.FUND_MONEY_MAP.remove(s);
                 }
-                updateTable();
+                DataCenter.UPDATE_THREAD_POOL_EXECUTOR.execute(() -> updateTable());
             }
         });
 
@@ -303,7 +308,7 @@ public class FundWindow {
                 } else {
                     DataCenter.setFundCount((String) fundTable.getValueAt(selectedRow, 0), 0);
                 }
-                updateTable();
+                DataCenter.UPDATE_THREAD_POOL_EXECUTOR.execute(() -> updateTable());
             }
         });
         selectedCancle.addActionListener(new ActionListener() {
@@ -315,7 +320,7 @@ public class FundWindow {
         btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateTable();
+                DataCenter.UPDATE_THREAD_POOL_EXECUTOR.execute(() -> updateTable());
             }
         });
 
@@ -324,7 +329,7 @@ public class FundWindow {
             @Override
             public void stateChanged(ChangeEvent e) {
                 DataCenter.setCbxStatus(cbx_week.isSelected());
-                updateTable();
+                DataCenter.UPDATE_THREAD_POOL_EXECUTOR.execute(() -> updateTable());
             }
         });
     }
