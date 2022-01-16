@@ -20,6 +20,7 @@ public class DataCenter {
     public static final String MY_FUND_CBX_STATUS = "MY_FUND_CBX_STATUS";
 
     public static final String FUND_URL = "http://fundgz.1234567.com.cn/js/";
+//    public static final String FUND_URL = "http://fundgz.1234567.com.cn/js/";
 
     public static double ALL_MONEY = 0;
 
@@ -73,6 +74,9 @@ public class DataCenter {
     }
 
     public static void saveMoney(String id, double money) {
+        if(id == null) {
+            return;
+        }
         FUND_MONEY_MAP.put(id, money);
     }
 
