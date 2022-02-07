@@ -27,7 +27,7 @@ public class FundDataConvert {
             money = money*fundData.getGszzl()/100.0;
         }
 
-        /*
+        /**
           是否是周末
          */
         Calendar calendar=Calendar.getInstance();
@@ -40,6 +40,10 @@ public class FundDataConvert {
         DataCenter.saveMoney(fundData.getFundcode(), money);
 
         String sign =money>0?"+":"";
+
+        if (sign == null) {
+            return null;
+        }
 
         return new String[] {
                 fundData.getFundcode(),

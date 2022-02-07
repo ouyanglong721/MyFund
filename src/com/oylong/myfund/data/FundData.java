@@ -68,6 +68,9 @@ public class FundData {
     }
 
     public Date getGztime() {
+        if(name == null) {
+            name = null;
+        }
         return gztime;
     }
 
