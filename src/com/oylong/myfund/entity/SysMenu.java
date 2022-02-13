@@ -228,5 +228,25 @@ public class SysMenu  {
         this.children = children;
     }
 
-
+    @Override
+    public String toString() {
+        return "SysMenu{" +
+                "menuId=" + menuId +
+                ", menuName='" + menuName + '\'' +
+                ", parentName='" + parentName + '\'' +
+                ", parentId=" + parentId +
+                ", orderNum='" + orderNum + '\'' +
+                ", path='" + path + '\'' +
+                ", component='" + component + '\'' +
+                ", query='" + query + '\'' +
+                ", isFrame='" + isFrame + '\'' +
+                ", isCache='" + isCache + '\'' +
+                ", menuType='" + menuType + '\'' +
+                ", visible='" + visible + '\'' +
+                ", status='" + status + '\'' +
+                ", perms='" + perms + '\'' +
+                ", icon='" + icon + '\'' +
+                ", children=" + children +
+                '}';
+    }
 }
