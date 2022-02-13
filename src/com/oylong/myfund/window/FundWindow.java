@@ -83,12 +83,8 @@ public class FundWindow {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 double temp = 0.0;
 
-                try {
-                    String s = value.toString().substring(0, value.toString().length() - 1);
-                    temp = Double.parseDouble(s);
-                } catch (Exception e) {
-                    log.error(e)
-                }
+                String s = value.toString().substring(0, value.toString().length() - 1);
+                temp = Double.parseDouble(s);
                 if (temp > 0) {
                     setForeground(new JBColor(0XFF4040, 0XFF4040));
                 } else if (temp < 0) {
