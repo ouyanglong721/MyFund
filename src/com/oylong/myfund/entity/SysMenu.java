@@ -228,22 +228,5 @@ public class SysMenu  {
         this.children = children;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("menuId", getMenuId())
-                .append("menuName", getMenuName())
-                .append("parentId", getParentId())
-                .append("orderNum", getOrderNum())
-                .append("path", getPath())
-                .append("component", getComponent())
-                .append("isFrame", getIsFrame())
-                .append("IsCache", getIsCache())
-                .append("menuType", getMenuType())
-                .append("visible", getVisible())
-                .append("status ", getStatus())
-                .append("perms", getPerms())
-                .append("icon", getIcon())
-                .toString();
-    }
+
 }
