@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author OyLong
  */
-public class SysMenu  {
+public class Menu {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -94,7 +94,7 @@ public class SysMenu  {
     /**
      * 子菜单
      */
-    private List<SysMenu> children = new ArrayList<SysMenu>();
+    private List<Menu> children = new ArrayList<Menu>();
 
     public Long getMenuId() {
         return menuId;
@@ -220,33 +220,11 @@ public class SysMenu  {
         this.icon = icon;
     }
 
-    public List<SysMenu> getChildren() {
+    public List<Menu> getChildren() {
         return children;
     }
 
-    public void setChildren(List<SysMenu> children) {
+    public void setChildren(List<Menu> children) {
         this.children = children;
-    }
-
-    @Override
-    public String toString() {
-        return "SysMenu{" +
-                "menuId=" + menuId +
-                ", menuName='" + menuName + '\'' +
-                ", parentName='" + parentName + '\'' +
-                ", parentId=" + parentId +
-                ", orderNum='" + orderNum + '\'' +
-                ", path='" + path + '\'' +
-                ", component='" + component + '\'' +
-                ", query='" + query + '\'' +
-                ", isFrame='" + isFrame + '\'' +
-                ", isCache='" + isCache + '\'' +
-                ", menuType='" + menuType + '\'' +
-                ", visible='" + visible + '\'' +
-                ", status='" + status + '\'' +
-                ", perms='" + perms + '\'' +
-                ", icon='" + icon + '\'' +
-                ", children=" + children +
-                '}';
     }
 }

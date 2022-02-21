@@ -31,6 +31,10 @@ public class  TableUtilities  {
             column.setWidth(width + myTable.getIntercellSpacing().width+20);
         }
 
+        if(myTable == null) {
+            return;
+        }
+
         myTable.getTableHeader().setReorderingAllowed(false);
         myTable.getTableHeader().setResizingAllowed(false);
 
