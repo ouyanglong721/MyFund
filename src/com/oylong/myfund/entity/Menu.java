@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 菜单权限表 sys_menu
- *
+ * menu 表
  * @author OyLong
  */
 public class Menu {

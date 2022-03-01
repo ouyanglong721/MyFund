@@ -14,17 +14,18 @@ import java.util.concurrent.*;
  **/
 public class DataCenter {
     public static String[] HEADERS = {"基金代码", "基金名称", "估算涨跌幅", "更新时间", "最新净值", "持有份额", "预计盈亏"};
+    public static String[] HEADERS_ENGLISH = {"CODE", "NAME", "ABOUT", "UPDATE", "NEWEST", "HAD", "GET"};
 
     public static final String MY_FUND_IDS = "MY_FUND_IDS";
     public static final String MY_FUND_COUNT_KEY = "MY_FUND_COUNT_";
     public static final String MY_FUND_CBX_STATUS = "MY_FUND_CBX_STATUS";
 
     public static final String FUND_URL = "http://fundgz.1234567.com.cn/js/";
-//    public static final String FUND_URL = "http://fundgz.1234567.com.cn/js/";
 
     public static double ALL_MONEY = 0;
 
     public static volatile boolean CBX_STATUS = false;
+    public static volatile boolean CBX_STATUS_TRUE = true;
 
     public static final ExecutorService UPDATE_THREAD_POOL_EXECUTOR;
 
@@ -33,6 +34,7 @@ public class DataCenter {
     public static final ConcurrentHashMap<String, Double> FUND_MONEY_MAP = new ConcurrentHashMap<>();
 
     static {
+        // 更新线程池
         UPDATE_THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(2, 4, 0L, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2), r -> new Thread(r, "update thread-" + r.hashCode()), new ThreadPoolExecutor.DiscardOldestPolicy());
     }
 
