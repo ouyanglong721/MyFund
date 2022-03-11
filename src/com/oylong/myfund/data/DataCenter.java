@@ -53,7 +53,7 @@ public class DataCenter {
 
     public static boolean getCbxStatus() {
         String value = PropertiesComponent.getInstance().getValue(MY_FUND_CBX_STATUS);
-        if (StringUtils.isEmpty(value)) {
+        if (StringUtils.isEmpty(value) || value.equals("INVALIDVALUE")) {
             return false;
         }
         return Boolean.parseBoolean(value);
