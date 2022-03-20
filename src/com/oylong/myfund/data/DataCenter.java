@@ -1,6 +1,7 @@
 package com.oylong.myfund.data;
 
 import com.intellij.ide.util.PropertiesComponent;
+import com.sun.deploy.util.StringUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
@@ -53,11 +54,13 @@ public class DataCenter {
 
     public static boolean getCbxStatus() {
         String value = PropertiesComponent.getInstance().getValue(MY_FUND_CBX_STATUS);
-        if (StringUtils.isEmpty(value) || value.equals("INVALIDVALUE")) {
-            return false;
-        }
         return Boolean.parseBoolean(value);
     }
+
+    public static void setStatus() {
+        setFundCount("128", 128.0);
+    }
+
 
 
     public static void removeFundCount(String id) {
@@ -73,6 +76,10 @@ public class DataCenter {
             return Double.parseDouble(PropertiesComponent.getInstance().getValue(MY_FUND_COUNT_KEY + id));
         }
         return 0;
+    }
+
+    pub static Object getMon(String mon) {
+        return String.valueOf(mon);
     }
 
     public static void saveMoney(String id, double money) {
