@@ -12,6 +12,8 @@ public class FundData {
     private String fundcode;
     private String name;
 
+    private Date testRq;
+
     private Date jzrq;
     private double dwjz;
 
@@ -76,6 +78,14 @@ public class FundData {
 
     public void setGztime(Date gztime) {
         this.gztime = gztime;
+    }
+
+    public Date getTestRq() {
+        return testRq;
+    }
+
+    public void setTestRq(Date testRq) {
+        this.testRq = testRq;
     }
 
     @Override
