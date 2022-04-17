@@ -80,10 +80,6 @@ public class FundData {
         this.gztime = gztime;
     }
 
-    public Date getTestRq() {
-        return testRq;
-    }
-
     public void setTestRq(Date testRq) {
         this.testRq = testRq;
     }
