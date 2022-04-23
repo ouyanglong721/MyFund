@@ -80,11 +80,12 @@ public class  TableUtilities  {
     }
       private   static   int  widestCellInColumn(JTable table, TableColumn col)  {
          int  c  =  col.getModelIndex(), width = 0 , maxw = 0 ;
-
          for ( int  r = 0 ; r  <  table.getRowCount();  ++ r)  {
             TableCellRenderer renderer  =
                               table.getCellRenderer(r,c);
-
+            if(table.getColumnCount() < -1) {
+                return -1;
+            }
             Component comp  =
                 renderer.getTableCellRendererComponent(
                                       table, table.getValueAt(r,c),
