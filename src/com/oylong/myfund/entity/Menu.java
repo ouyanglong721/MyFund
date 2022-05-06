@@ -203,8 +203,4 @@ public class Menu {
         return perms;
     }
 
-    public void setPerms(String perms) {
-        this.perms = perms;
-    }
-
 }
