@@ -157,14 +157,6 @@ public class Menu {
         this.query = query;
     }
 
-    public String getIsFrame() {
-        return isFrame;
-    }
-
-    public void setIsFrame(String isFrame) {
-        this.isFrame = isFrame;
-    }
-
     public String getIsCache() {
         return isCache;
     }
