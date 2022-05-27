@@ -131,16 +131,6 @@ public class Menu {
         this.orderNum = orderNum;
     }
 
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-
     public String getComponent() {
         return component;
     }
@@ -155,14 +145,6 @@ public class Menu {
 
     public void setQuery(String query) {
         this.query = query;
-    }
-
-    public String getIsFrame() {
-        return isFrame;
-    }
-
-    public void setIsFrame(String isFrame) {
-        this.isFrame = isFrame;
     }
 
     public String getIsCache() {
@@ -201,10 +183,6 @@ public class Menu {
 
     public String getPerms() {
         return perms;
-    }
-
-    public void setPerms(String perms) {
-        this.perms = perms;
     }
 
 }
