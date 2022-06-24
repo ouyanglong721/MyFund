@@ -151,15 +151,6 @@ public class Menu {
         return isCache;
     }
 
-    public void setIsCache(String isCache) {
-        this.isCache = isCache;
-    }
-
-
-    public String getMenuType() {
-        return menuType;
-    }
-
     public void setMenuType(String menuType) {
         this.menuType = menuType;
     }
