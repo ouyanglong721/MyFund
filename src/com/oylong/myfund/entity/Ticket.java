@@ -19,7 +19,6 @@ public class Ticket extends BaseEntity {
 
     public static final Integer STATUS_PROCESSING = 0;
     public static final Integer STATUS_REPLIED = 1;
-    public static final Integer STATUS_CLOSED = 2;
 
     /**
      * ID
@@ -53,13 +52,11 @@ public class Ticket extends BaseEntity {
     /**
      * 优先级
      */
-    @Excel(name = "优先级")
     private Integer ticketPriority;
 
     /**
      * 处理人
      */
-    @Excel(name = "处理人")
     private Long ticketHandler;
 
     public Long getTicketType() {
